@@ -11,4 +11,8 @@ func main() {
 	fmt.Println(regions)
 	services := awsservicemap.GetServicesForRegion("eu-south-2")
 	fmt.Println(services)
+	totalRegions := awsservicemap.GetAllRegions()
+	fmt.Println(totalRegions)
+	totalServices := awsservicemap.GetAllServices()
+	fmt.Println(totalServices)
 }

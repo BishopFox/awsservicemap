@@ -16,7 +16,15 @@ type regionalServiceData struct {
 	ServiceEntries []serviceEntry `json:"prices"`
 }
 
-//var serviceMap map[string]map[string]string
+// Checks if element is part of array.
+func contains(element string, array []string) bool {
+	for _, v := range array {
+		if v == element {
+			return true
+		}
+	}
+	return false
+}
 
 func parseJson() regionalServiceData {
 
@@ -32,14 +40,17 @@ func parseJson() regionalServiceData {
 	return serviceData
 }
 
-func CreateServiceRegionMap() regionalServiceData {
+func GetAllRegions() []string {
+	totalRegions := []string{}
 	serviceData := parseJson()
 	for _, id := range serviceData.ServiceEntries {
-		service := strings.Split(id.ID, ":")[0]
 		region := strings.Split(id.ID, ":")[1]
-		fmt.Println(service, region)
+		if !contains(region, totalRegions) {
+			totalRegions = append(totalRegions, region)
+		}
 	}
-	return serviceData
+	return totalRegions
+
 }
 
 func GetRegionsForService(reqService string) []string {
@@ -57,6 +68,20 @@ func GetRegionsForService(reqService string) []string {
 		}
 	}
 	return regionsForServiceMap[reqService]
+
+}
+
+func GetAllServices() []string {
+	totalServices := []string{}
+
+	serviceData := parseJson()
+	for _, id := range serviceData.ServiceEntries {
+		service := strings.Split(id.ID, ":")[0]
+		if !contains(service, totalServices) {
+			totalServices = append(totalServices, service)
+		}
+	}
+	return totalServices
 
 }
 
