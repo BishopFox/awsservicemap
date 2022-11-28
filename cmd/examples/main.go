@@ -15,4 +15,6 @@ func main() {
 	fmt.Println(totalRegions)
 	totalServices := awsservicemap.GetAllServices()
 	fmt.Println(totalServices)
+	res := awsservicemap.IsServiceInRegion("frauddetector", "eu-south-2")
+	fmt.Println(res)
 }

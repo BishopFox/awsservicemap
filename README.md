@@ -99,3 +99,27 @@ Output:
 ```
 [translate route53 lookoutmetrics opsworkspuppetenterprise datasync frauddetector shield mwaa cloudshell servicediscovery sagemaker elastictranscoder devops-guru transitgateway ivs rosa elastic-inference ssm codedeploy iotdevicedefender ahl ec2 inspector2 quicksight cloudtrail greengrass polly athena rdsvmware groundstation chatbot redshift iam iot1click-projects filecache iotevents kinesisanalytics honeycode es dataexchange guardduty nimble vmwarecloudonaws firehose kinesisvideo appstream deepcomposer mq ram cloudsearch sso managedservices iotanalytics wellarchitectedtool sqs compute-optimizer braket waf glue outposts medialive apigateway proton stepfunctions budgets license-manager ds privatelink acm personalize artifact eks fms workspaces-web cloudformation kinesis cloudenduredisasterrecovery clouddirectory cognito-identity phd datapipeline controltower lumberyard rds grafana wam codeartifact fsx-ontap detective lightsail iotsitewise kafka trustedadvisor vpc directconnect aurora iot ebs chime aiq cloudenduremigration resiliencehub comprehend fargate backup mediapackage globalaccelerator snowcone drs kendra devicefarm eventbridge lex-runtime appflow xray textract cloudhsmv2 neptune fis amplify auditmanager emr workdocs secretsmanager swf augmentedairuntime marketplace batch mgn transfer ses codepipeline application-autoscaling timestream lakeformation mgh transcribemedical opsworks cloudwatch opsworkschefautomate amazonlocationservice codestar cloud9 workspaces managedblockchain snowball dms serverlessrepo robomaker pinpoint elasticbeanstalk transcribe organizations iotdevicemanagement macie aps elasticache mcs connect kms forecast support sns vpn m2 network-firewall storagegateway autoscaling servicecatalog fsx-lustre appsync snowmobile mediatailor ecr iottwinmaker elb codecommit memorydb lookoutvision s3 sms deepracer codeguruprofiler efs qldb mediaconvert fsx-openzfs comprehendmedical gamelift dynamodb docdb mediaconnect alexaforbusiness config cloudfront workmail securityhub appmesh deeplens cur sumerian rekognition lambda freertosota fsx-windows discovery ecs codebuild mediastore costexplorer]
 ```
+
+### IsServiceInRegion
+
+```
+package main
+
+import (
+	"fmt"
+
+	"github.com/bishopfox/awsservicemap"
+)
+
+func main() {
+	res := awsservicemap.IsServiceInRegion("frauddetector", "eu-south-2")
+	fmt.Println(res)
+	res := awsservicemap.IsServiceInRegion("lambda", "us-east-1")
+	fmt.Println(res)
+}
+```
+
+Output: 
+```
+false
+true

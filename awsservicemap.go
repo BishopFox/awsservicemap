@@ -103,3 +103,24 @@ func GetServicesForRegion(reqRegion string) []string {
 	}
 	return servicesForRegionMap[reqRegion]
 }
+
+func ServiceEntryContains(element serviceEntry, array []serviceEntry) bool {
+	for _, v := range array {
+		if v == element {
+			return true
+		}
+	}
+	return false
+}
+
+func IsServiceInRegion(reqService string, reqRegion string) bool {
+	//servicesForRegionMap := map[string][]string{}
+	serviceData := parseJson()
+
+	reqPair := serviceEntry{ID: fmt.Sprintf("%s:%s", reqService, reqRegion)}
+	if ServiceEntryContains(reqPair, serviceData.ServiceEntries) {
+		return true
+	} else {
+		return false
+	}
+}
