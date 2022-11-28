@@ -1,12 +1,14 @@
 package awsservicemap
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
 	"strings"
 )
+
+//go:embed data/aws-service-regions.json
+var awsJson embed.FS
 
 type serviceEntry struct {
 	ID string `json:"id"`
@@ -28,15 +30,13 @@ func contains(element string, array []string) bool {
 
 func parseJson() regionalServiceData {
 
-	jsonFile, err := os.Open("data/aws-service-regions.json")
+	jsonFile, err := awsJson.ReadFile("data/aws-service-regions.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	var serviceData regionalServiceData
-	json.Unmarshal([]byte(byteValue), &serviceData)
+	json.Unmarshal([]byte(jsonFile), &serviceData)
 	return serviceData
 }
 
