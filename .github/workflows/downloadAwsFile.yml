@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Refresh regions of AWS services
+name: Refresh region service map file
 
 on:
   schedule:
@@ -32,10 +32,10 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "feat(regions_update): Update aws service region map file."
+          commit-message: "Update aws service region map file."
           branch: "aws-services-regions-updated"
           labels: "status/waiting-for-revision, severity/low"
-          title: "feat(regions_update): Updating the aws service region map file."
+          title: "Updating the aws service region map file."
           body: |
             ### Description
 
