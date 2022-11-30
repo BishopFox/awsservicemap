@@ -1,7 +1,9 @@
 # aws-servicemap
-Not all AWS services are supported in all regions. Use this is a go module to return either a slice of supported regions for a service, or a slice of supported services for a region.   
+Not all AWS services are supported in all regions. 
 
-Uses https://api.regional-table.region-services.aws.a2z.com/index.json as the source of truth
+Use this go module to determine if a service is supported in a specific region or not.  
+
+This module uses https://api.regional-table.region-services.aws.a2z.com/index.json as the source of truth.
 
 ## Functions
 
@@ -9,6 +11,7 @@ Uses https://api.regional-table.region-services.aws.a2z.com/index.json as the so
 * [GetServicesForRegion](#GetServicesForRegion)
 * [GetAllRegions](#GetAllRegions)
 * [GetAllServices](#GetAllServices)
+* [IsServiceInRegion](#IsServiceInRegion)
 
 ## Examples
 ### GetRegionsForService
@@ -123,3 +126,8 @@ Output:
 ```
 false
 true
+```
+
+# Thanks
+
+Thanks to Christophe Tafani-Dereeper (@christophetd) for the idea to make this a consumable library
