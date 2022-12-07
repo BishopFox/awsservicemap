@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/bishopfox/awsservicemap"
+	"github.com/bishopfox/awsservicemap/pkg/awsservicemap"
 )
 
 func main() {
