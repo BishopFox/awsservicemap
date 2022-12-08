@@ -7,14 +7,25 @@ import (
 )
 
 func main() {
-	regions := awsservicemap.GetRegionsForService("grafana")
+	// Instantiate a new servicemap object
+	servicemap := awsservicemap.NewServiceMap()
+
+	// Check what regions support grafana?
+	regions := servicemap.GetRegionsForService("grafana")
 	fmt.Println(regions)
-	services := awsservicemap.GetServicesForRegion("eu-south-2")
+	// Check what services are supported in eu-south-2
+	services := servicemap.GetServicesForRegion("eu-south-2")
 	fmt.Println(services)
-	totalRegions := awsservicemap.GetAllRegions()
+
+	// List all of the regions
+	totalRegions := servicemap.GetAllRegions()
 	fmt.Println(totalRegions)
-	totalServices := awsservicemap.GetAllServices()
+
+	// List all of the services
+	totalServices := servicemap.GetAllServices()
 	fmt.Println(totalServices)
-	res := awsservicemap.IsServiceInRegion("frauddetector", "eu-south-2")
+
+	// Check if franddetector is supported in eu-south-2?
+	res := servicemap.IsServiceInRegion("frauddetector", "eu-south-2")
 	fmt.Println(res)
 }

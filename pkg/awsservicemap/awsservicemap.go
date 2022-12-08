@@ -4,11 +4,17 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
 //go:embed data/aws-service-regions.json
 var awsJson embed.FS
+
+type AwsServiceMap struct {
+	DownloadJson bool
+}
 
 type serviceEntry struct {
 	ID string `json:"id"`
@@ -28,21 +34,43 @@ func contains(element string, array []string) bool {
 	return false
 }
 
-func parseJson() regionalServiceData {
+func NewServiceMap() *AwsServiceMap {
+	return &AwsServiceMap{
+		DownloadJson: false,
+	}
+}
 
-	jsonFile, err := awsJson.ReadFile("data/aws-service-regions.json")
-	if err != nil {
-		fmt.Println(err)
+func parseJson(downloadJson bool) regionalServiceData {
+	var serviceData regionalServiceData
+
+	if downloadJson {
+		res, err := http.Get("https://api.regional-table.region-services.aws.a2z.com/index.json")
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer res.Body.Close()
+
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		json.Unmarshal([]byte(body), &serviceData)
+
+	} else {
+		jsonFile, err := awsJson.ReadFile("data/aws-service-regions.json")
+		json.Unmarshal([]byte(jsonFile), &serviceData)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
-	var serviceData regionalServiceData
-	json.Unmarshal([]byte(jsonFile), &serviceData)
 	return serviceData
 }
 
-func GetAllRegions() []string {
+func (*AwsServiceMap) GetAllRegions() []string {
 	totalRegions := []string{}
-	serviceData := parseJson()
+	servicemap := NewServiceMap()
+	serviceData := parseJson(servicemap.DownloadJson)
 	for _, id := range serviceData.ServiceEntries {
 		region := strings.Split(id.ID, ":")[1]
 		if !contains(region, totalRegions) {
@@ -53,10 +81,11 @@ func GetAllRegions() []string {
 
 }
 
-func GetRegionsForService(reqService string) []string {
+func (*AwsServiceMap) GetRegionsForService(reqService string) []string {
 	regionsForServiceMap := map[string][]string{}
 
-	serviceData := parseJson()
+	servicemap := NewServiceMap()
+	serviceData := parseJson(servicemap.DownloadJson)
 	for _, id := range serviceData.ServiceEntries {
 		service := strings.Split(id.ID, ":")[0]
 		if _, ok := regionsForServiceMap[service]; !ok {
@@ -71,10 +100,11 @@ func GetRegionsForService(reqService string) []string {
 
 }
 
-func GetAllServices() []string {
+func (*AwsServiceMap) GetAllServices() []string {
 	totalServices := []string{}
 
-	serviceData := parseJson()
+	servicemap := NewServiceMap()
+	serviceData := parseJson(servicemap.DownloadJson)
 	for _, id := range serviceData.ServiceEntries {
 		service := strings.Split(id.ID, ":")[0]
 		if !contains(service, totalServices) {
@@ -85,9 +115,10 @@ func GetAllServices() []string {
 
 }
 
-func GetServicesForRegion(reqRegion string) []string {
+func (*AwsServiceMap) GetServicesForRegion(reqRegion string) []string {
 	servicesForRegionMap := map[string][]string{}
-	serviceData := parseJson()
+	servicemap := NewServiceMap()
+	serviceData := parseJson(servicemap.DownloadJson)
 
 	for _, id := range serviceData.ServiceEntries {
 
@@ -113,9 +144,10 @@ func serviceEntryContains(element serviceEntry, array []serviceEntry) bool {
 	return false
 }
 
-func IsServiceInRegion(reqService string, reqRegion string) bool {
+func (*AwsServiceMap) IsServiceInRegion(reqService string, reqRegion string) bool {
 	//servicesForRegionMap := map[string][]string{}
-	serviceData := parseJson()
+	servicemap := NewServiceMap()
+	serviceData := parseJson(servicemap.DownloadJson)
 
 	reqPair := serviceEntry{ID: fmt.Sprintf("%s:%s", reqService, reqRegion)}
 	if serviceEntryContains(reqPair, serviceData.ServiceEntries) {
