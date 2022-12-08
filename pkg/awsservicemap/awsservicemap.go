@@ -40,52 +40,61 @@ func NewServiceMap() *AwsServiceMap {
 	}
 }
 
-func parseJson(downloadJson bool) regionalServiceData {
+func (m *AwsServiceMap) parseJson() (regionalServiceData, error) {
 	var serviceData regionalServiceData
+	var err error
 
-	if downloadJson {
+	if m.DownloadJson {
 		res, err := http.Get("https://api.regional-table.region-services.aws.a2z.com/index.json")
 		if err != nil {
-			fmt.Println(err)
+			return serviceData, err
 		}
 		defer res.Body.Close()
 
 		body, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			fmt.Println(err)
+			return serviceData, err
 		}
 		json.Unmarshal([]byte(body), &serviceData)
+		if err != nil {
+			return serviceData, err
+		}
 
 	} else {
 		jsonFile, err := awsJson.ReadFile("data/aws-service-regions.json")
 		json.Unmarshal([]byte(jsonFile), &serviceData)
 		if err != nil {
-			fmt.Println(err)
+			return serviceData, err
 		}
 	}
 
-	return serviceData
+	return serviceData, err
 }
 
-func (*AwsServiceMap) GetAllRegions() []string {
+func (m *AwsServiceMap) GetAllRegions() ([]string, error) {
 	totalRegions := []string{}
-	servicemap := NewServiceMap()
-	serviceData := parseJson(servicemap.DownloadJson)
+	serviceData, err := m.parseJson()
+	if err != nil {
+		return totalRegions, err
+	}
+
 	for _, id := range serviceData.ServiceEntries {
 		region := strings.Split(id.ID, ":")[1]
 		if !contains(region, totalRegions) {
 			totalRegions = append(totalRegions, region)
 		}
 	}
-	return totalRegions
+	return totalRegions, err
 
 }
 
-func (*AwsServiceMap) GetRegionsForService(reqService string) []string {
+func (m *AwsServiceMap) GetRegionsForService(reqService string) ([]string, error) {
 	regionsForServiceMap := map[string][]string{}
 
-	servicemap := NewServiceMap()
-	serviceData := parseJson(servicemap.DownloadJson)
+	serviceData, err := m.parseJson()
+	if err != nil {
+		return regionsForServiceMap[reqService], err
+	}
 	for _, id := range serviceData.ServiceEntries {
 		service := strings.Split(id.ID, ":")[0]
 		if _, ok := regionsForServiceMap[service]; !ok {
@@ -96,29 +105,32 @@ func (*AwsServiceMap) GetRegionsForService(reqService string) []string {
 			regionsForServiceMap[service] = append(regionsForServiceMap[service], region)
 		}
 	}
-	return regionsForServiceMap[reqService]
+	return regionsForServiceMap[reqService], err
 
 }
 
-func (*AwsServiceMap) GetAllServices() []string {
+func (m *AwsServiceMap) GetAllServices() ([]string, error) {
 	totalServices := []string{}
-
-	servicemap := NewServiceMap()
-	serviceData := parseJson(servicemap.DownloadJson)
+	serviceData, err := m.parseJson()
+	if err != nil {
+		return totalServices, err
+	}
 	for _, id := range serviceData.ServiceEntries {
 		service := strings.Split(id.ID, ":")[0]
 		if !contains(service, totalServices) {
 			totalServices = append(totalServices, service)
 		}
 	}
-	return totalServices
+	return totalServices, err
 
 }
 
-func (*AwsServiceMap) GetServicesForRegion(reqRegion string) []string {
+func (m *AwsServiceMap) GetServicesForRegion(reqRegion string) ([]string, error) {
 	servicesForRegionMap := map[string][]string{}
-	servicemap := NewServiceMap()
-	serviceData := parseJson(servicemap.DownloadJson)
+	serviceData, err := m.parseJson()
+	if err != nil {
+		return servicesForRegionMap[reqRegion], err
+	}
 
 	for _, id := range serviceData.ServiceEntries {
 
@@ -132,7 +144,7 @@ func (*AwsServiceMap) GetServicesForRegion(reqRegion string) []string {
 			servicesForRegionMap[region] = append(servicesForRegionMap[region], service)
 		}
 	}
-	return servicesForRegionMap[reqRegion]
+	return servicesForRegionMap[reqRegion], err
 }
 
 func serviceEntryContains(element serviceEntry, array []serviceEntry) bool {
@@ -144,15 +156,17 @@ func serviceEntryContains(element serviceEntry, array []serviceEntry) bool {
 	return false
 }
 
-func (*AwsServiceMap) IsServiceInRegion(reqService string, reqRegion string) bool {
+func (m *AwsServiceMap) IsServiceInRegion(reqService string, reqRegion string) (bool, error) {
 	//servicesForRegionMap := map[string][]string{}
-	servicemap := NewServiceMap()
-	serviceData := parseJson(servicemap.DownloadJson)
+	serviceData, err := m.parseJson()
+	if err != nil {
+		return false, err
+	}
 
 	reqPair := serviceEntry{ID: fmt.Sprintf("%s:%s", reqService, reqRegion)}
 	if serviceEntryContains(reqPair, serviceData.ServiceEntries) {
-		return true
+		return true, err
 	} else {
-		return false
+		return false, err
 	}
 }
