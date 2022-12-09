@@ -8,9 +8,17 @@ import (
 )
 
 func main() {
+
 	// Instantiate a new servicemap object
-	servicemap := awsservicemap.NewServiceMap()
-	servicemap.DownloadJson = true
+	// JsonFileSource options: "EMBEDDED_IN_PACKAGE", "DOWNLOAD_FROM_AWS"
+	servicemap := &awsservicemap.AwsServiceMap{
+		JsonFileSource: "EMBEDDED_IN_PACKAGE",
+	}
+
+	//  Example of how to Instantiate a new servicemap object using constructor
+	// JsonFileSource options: "EMBEDDED_IN_PACKAGE", "DOWNLOAD_FROM_AWS"
+	// servicemap1 := awsservicemap.NewServiceMap()
+	// servicemap1.JsonFileSource = "EMBEDDED_IN_PACKAGE"
 
 	// Check what regions support grafana?
 	regions, err := servicemap.GetRegionsForService("grafana")
