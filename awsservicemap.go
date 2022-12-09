@@ -184,7 +184,7 @@ func (m *AwsServiceMap) GetServicesForRegion(reqRegion string) ([]string, error)
 	return servicesForRegionMap[reqRegion], err
 }
 
-// Is a specific service supported in a specific region. Retruns true/false
+// Is a specific service supported in a specific region. Returns true/false
 func (m *AwsServiceMap) IsServiceInRegion(reqService string, reqRegion string) (bool, error) {
 	serviceData, err := m.parseJson()
 	if err != nil {

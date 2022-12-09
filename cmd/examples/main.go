@@ -4,19 +4,21 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/bishopfox/awsservicemap/pkg/awsservicemap"
+	"github.com/bishopfox/awsservicemap"
 )
 
 func main() {
 
-	// Instantiate a new servicemap object
+	// Create a variable of type AwsServiceMap
 	// JsonFileSource options: "EMBEDDED_IN_PACKAGE", "DOWNLOAD_FROM_AWS"
+	// When using "EMBEDDED_IN_PACKAGE" this package does not make any external HTTP requests, but the data might be slightly out of date
+	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
+
 	servicemap := &awsservicemap.AwsServiceMap{
 		JsonFileSource: "EMBEDDED_IN_PACKAGE",
 	}
 
-	//  Example of how to Instantiate a new servicemap object using constructor
-	// JsonFileSource options: "EMBEDDED_IN_PACKAGE", "DOWNLOAD_FROM_AWS"
+	//  Example of how you can also use the constructor pattern to simulate "instantiating" a new service map "object"
 	// servicemap1 := awsservicemap.NewServiceMap()
 	// servicemap1.JsonFileSource = "EMBEDDED_IN_PACKAGE"
 
