@@ -35,6 +35,8 @@ type AwsServiceMap struct {
 	JsonFileSource JsonFileSource
 }
 
+// When using "EMBEDDED_IN_PACKAGE" this package does not make any external HTTP requests, but the data might be slightly out of date
+// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
 type JsonFileSource string
 
 // Enum values for JsonFileSource
