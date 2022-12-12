@@ -1,7 +1,7 @@
 # aws-servicemap
 Not all AWS services are supported in all regions. Use this go module to determine if a service is supported in a specific region and more. 
 
-Uses https://api.regional-table.region-services.aws.a2z.com/index.json as the source of truth
+Uses https://api.regional-table.region-services.aws.a2z.com/index.json as the source of truth.
 
 ## Functions
 
@@ -27,8 +27,12 @@ import (
 
 func main() {
 	// JsonFileSource options: "EMBEDDED_IN_PACKAGE", "DOWNLOAD_FROM_AWS"
-	// When using "EMBEDDED_IN_PACKAGE" this package does not make any external HTTP requests, but the data might be slightly out of date
-	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
+	
+	// When using "EMBEDDED_IN_PACKAGE" this package does not make any external HTTP
+	// requests, but the data might be slightly out of date
+	
+	// When using "DOWNLOAD_FROM_AWS" this package makes an external 
+	// HTTP request, but you get real-time data.
 
 	servicemap := &awsservicemap.AwsServiceMap{
 		JsonFileSource: "EMBEDDED_IN_PACKAGE",
