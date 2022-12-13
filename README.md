@@ -15,7 +15,7 @@ Uses https://api.regional-table.region-services.aws.a2z.com/index.json as the so
 
 ### IsServiceInRegion
 
-```
+```go
 package main
 
 import (
@@ -48,6 +48,7 @@ func main() {
 ```
 
 Output: 
+
 ```
 false
 ```
@@ -55,7 +56,7 @@ false
 
 ### GetRegionsForService
 
-```
+```go
 package main
 
 import (
@@ -94,7 +95,7 @@ Output:
 
 ### GetServicesForRegion
 
-```
+```go
 package main
 
 import (
@@ -132,7 +133,7 @@ Output:
 
 ### GetAllRegions
 
-```
+```go
 package main
 
 import (
@@ -171,7 +172,7 @@ Output:
 
 ### GetAllServices
 
-```
+```go
 package main
 
 import (
