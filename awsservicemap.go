@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -76,9 +75,6 @@ func (m *AwsServiceMap) parseJson() (regionalServiceData, error) {
 	var err error
 
 	if m.JsonFileSource == "DOWNLOAD_FROM_AWS" {
-		fmt.Println("user selected download")
-		log.Fatalln("exit")
-
 		res, err := http.Get("https://api.regional-table.region-services.aws.a2z.com/index.json")
 		if err != nil {
 			return serviceData, err
