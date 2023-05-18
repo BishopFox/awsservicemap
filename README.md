@@ -73,7 +73,7 @@ func main() {
 	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
 
 	servicemap := &awsservicemap.AwsServiceMap{
-		JsonFileSource: "EMBEDDED_IN_PACKAGE",
+		JsonFileSource: "DOWNLOAD_FROM_AWS",
 	}
 	
 	// Check what regions support grafana?
@@ -112,7 +112,7 @@ func main() {
 	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
 
 	servicemap := &awsservicemap.AwsServiceMap{
-		JsonFileSource: "EMBEDDED_IN_PACKAGE",
+		JsonFileSource: "DOWNLOAD_FROM_AWS",
 	}
 	
 	// Check what services are supported in eu-south-2
@@ -150,7 +150,7 @@ func main() {
 	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
 
 	servicemap := &awsservicemap.AwsServiceMap{
-		JsonFileSource: "EMBEDDED_IN_PACKAGE",
+		JsonFileSource: "DOWNLOAD_FROM_AWS",
 	}
 	
 	// List all of the regions
@@ -189,7 +189,7 @@ func main() {
 	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
 
 	servicemap := &awsservicemap.AwsServiceMap{
-		JsonFileSource: "EMBEDDED_IN_PACKAGE",
+		JsonFileSource: "DOWNLOAD_FROM_AWS",
 	}
 	
 	// List all of the services
