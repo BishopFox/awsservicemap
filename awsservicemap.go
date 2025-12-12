@@ -32,6 +32,7 @@ func contains(element string, array []string) bool {
 
 type AwsServiceMap struct {
 	JsonFileSource JsonFileSource
+	cachedData     *regionalServiceData // Cache the parsed data to avoid repeated HTTP requests
 }
 
 // When using "EMBEDDED_IN_PACKAGE" this package does not make any external HTTP requests, but the data might be slightly out of date
@@ -74,6 +75,11 @@ func (m *AwsServiceMap) parseJson() (regionalServiceData, error) {
 	var serviceData regionalServiceData
 	var err error
 
+	// Return cached data if it exists
+	if m.cachedData != nil {
+		return *m.cachedData, nil
+	}
+
 	if m.JsonFileSource == "DOWNLOAD_FROM_AWS" {
 		res, err := http.Get("https://api.regional-table.region-services.aws.a2z.com/index.json")
 		if err != nil {
@@ -97,6 +103,9 @@ func (m *AwsServiceMap) parseJson() (regionalServiceData, error) {
 			return serviceData, err
 		}
 	}
+
+	// Cache the data for subsequent calls
+	m.cachedData = &serviceData
 
 	return serviceData, err
 }
