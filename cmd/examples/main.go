@@ -16,7 +16,8 @@ func main() {
 	// With the new caching feature, the data is fetched only once per instance regardless of how many method calls are made.
 
 	servicemap := &awsservicemap.AwsServiceMap{
-		JsonFileSource: "EMBEDDED_IN_PACKAGE",
+		//JsonFileSource: "EMBEDDED_IN_PACKAGE",
+		JsonFileSource: "DOWNLOAD_FROM_AWS",
 	}
 
 	//  Example of how you can also use the constructor pattern to simulate "instantiating" a new service map "object"
