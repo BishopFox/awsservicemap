@@ -13,6 +13,7 @@ func main() {
 	// JsonFileSource options: "EMBEDDED_IN_PACKAGE", "DOWNLOAD_FROM_AWS"
 	// When using "EMBEDDED_IN_PACKAGE" this package does not make any external HTTP requests, but the data might be slightly out of date
 	// When using "DOWNLOAD_FROM_AWS" this package makes an external HTTP request, but you get real-time data.
+	// With the new caching feature, the data is fetched only once per instance regardless of how many method calls are made.
 
 	servicemap := &awsservicemap.AwsServiceMap{
 		JsonFileSource: "EMBEDDED_IN_PACKAGE",
@@ -54,7 +55,7 @@ func main() {
 	fmt.Println(totalServices)
 
 	// Check if franddetector is supported in eu-south-2?
-	res, err := servicemap.IsServiceInRegion("frauddetector", "eu-south-2")
+	res, err := servicemap.IsServiceInRegion("ec2", "eu-west-1")
 	if err != nil {
 		log.Fatal(err)
 	}
